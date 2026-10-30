@@ -1,0 +1,10 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {initialState} from '../dist/seed.js';
+import {validateState,quoteStatus,addTextSource,splitText,codingCSV,esc} from '../dist/core.js';
+test('演示资料的编码引文全部匹配真实关联的原文片段',()=>{const s=validateState(initialState());assert.ok(s.codes.every(c=>quoteStatus(c,s.evidence)));});
+test('备份验证拒绝丢失证据关联和重复标识',()=>{const a=initialState();a.codes[0].evidenceIds=['missing'];assert.throws(()=>validateState(a));const b=initialState();b.evidence[1].id=b.evidence[0].id;assert.throws(()=>validateState(b));});
+test('用户文本保持原文并与新来源正确关联',()=>{const s=initialState(),text='第一段：保留原文。\n\n第二段包含 <script> 文字。';const src=addTextSource(s,{name:'真实访谈.txt',text});const ev=s.evidence.filter(e=>e.sourceId===src.id);assert.equal(src.demo,false);assert.deepEqual(ev.map(e=>e.text),splitText(text));assert.ok(validateState(s));assert.ok(!esc(ev[1].text).includes('<script>'));});
+test('导出编码保留原文、证据ID、审核状态及资料身份',()=>{const s=initialState();const csv=codingCSV(s);assert.ok(csv.startsWith('\ufeff'));for(const value of ['E01','R01_科研教师访谈.txt','虚构演示资料','待审核',s.evidence[0].text])assert.ok(csv.includes(value));});
+test('引文匹配不会接受仅存在于未关联资料中的文本',()=>{const s=initialState(),c={evidenceIds:['E01'],quote:s.evidence.find(e=>e.id==='E08').text};assert.equal(quoteStatus(c,s.evidence),false);});
+test('恢复项目信息必须具有可显示的文本和完整的备忘关联',()=>{const a=initialState();a.sources[0].name=null;assert.throws(()=>validateState(a));const b=initialState();b.memos[0].evidenceId='missing';assert.throws(()=>validateState(b));});

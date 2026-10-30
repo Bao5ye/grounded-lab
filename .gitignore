@@ -1,0 +1,17 @@
+# Local project content and browser profile
+用户数据/
+临时文件/
+导出成果/
+*.grounded-project.json
+
+# Credentials, local settings, build artifacts
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+*.pfx
+*.p12
+node_modules/
+*.tmp
+*.log
