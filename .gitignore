@@ -15,3 +15,8 @@
 node_modules/
 *.tmp
 *.log
+
+# Skill test and Python cache
+__pycache__/
+*.py[cod]
+.venv/

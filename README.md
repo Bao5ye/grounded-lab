@@ -4,6 +4,12 @@
 
 > 首次打开的是虚构学习项目。AI 生成结果是候选解释，需要研究者回到原始材料逐项核验；本工具不能自动证明理论饱和。
 
+## 程序化扎根理论 Skill
+
+本仓库另提供 [grounded-theory Skill](skills/grounded-theory/SKILL.md)，由调用 Skill 的宿主模型承担编码、复核与分角色协调，无需配置模型 API Key。配套本地脚本支持研究项目、原文证据、三级编码、理论模型、抽样、备忘录、原 Windows 项目 JSON 兼容及 CSV／HTML／Mermaid／JSON 导出。
+
+将 `skills/grounded-theory` 文件夹复制到支持该格式的宿主技能目录，例如 `~/.codex/skills/grounded-theory`，在新会话中调用 `$grounded-theory`。Python 脚本需要 3.9 或更高版本，且宿主必须允许读取资料、运行本地脚本和写出文件；不同宿主对子智能体和文件格式的支持可能不同。模型建议须经研究者审核；同一模型扮演多个角色不等同于独立模型或独立编码者。详见 [Skill 操作说明](skills/grounded-theory/references/operations.md)。
+
 ## 主要功能
 
 - 新建和切换项目，填写研究意图；导入或粘贴 TXT、Markdown、CSV、TSV 文本。
